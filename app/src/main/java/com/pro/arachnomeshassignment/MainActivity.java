@@ -1,15 +1,18 @@
 package com.pro.arachnomeshassignment;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -74,31 +77,64 @@ public class MainActivity extends AppCompatActivity {
 
     // Method to fetch location
     private void fetchLocation() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                &&
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if(isLocationEnabled()) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    &&
+                    ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_LOCATION_PERMISSION);
-            return;
-        }
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, location -> {
-                    if (location != null) {
-                        double latitude = location.getLatitude();
-                        double longitude = location.getLongitude();
-                        // Use latitude and longitude
-                        String loc = latitude + ", " + longitude;
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        REQUEST_LOCATION_PERMISSION);
+                return;
+            }
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, location -> {
+                        if (location != null) {
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+                            // Use latitude and longitude
+                            String loc = latitude + ", " + longitude;
 
-                        binding.locationCoordinates.setText(loc);
+                            binding.locationCoordinates.setText(loc);
+                            binding.getLocation.setVisibility(View.VISIBLE);
+                            binding.progressBar.setVisibility(View.GONE);
+                        }
+                    })
+                    .addOnFailureListener(this, e -> {
                         binding.getLocation.setVisibility(View.VISIBLE);
                         binding.progressBar.setVisibility(View.GONE);
-                    }
-                })
-                .addOnFailureListener(this, e -> {
-                    binding.getLocation.setVisibility(View.VISIBLE);
-                    binding.progressBar.setVisibility(View.GONE);
-                    Toast.makeText(this, "Failed to fetch location. Try Again!", Toast.LENGTH_SHORT).show();
-                });
+                        Toast.makeText(this, "Failed to fetch location. Try Again!", Toast.LENGTH_SHORT).show();
+                    });
+        }else{ // location service is turned off
+            showLocationAlertDialog();
+        }
     }
+
+    public void showLocationAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Location Services Disabled");
+        builder.setMessage("Please enable location services to use this feature.");
+        builder.setPositiveButton("Go to Settings", (dialogInterface, i) -> {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+            binding.getLocation.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.GONE);
+        });
+        builder.setNegativeButton("Cancel", (dialogInterface, i) -> {
+            binding.getLocation.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.GONE);
+            dialogInterface.dismiss();
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public boolean isLocationEnabled() { // checking if location service is turned on or off
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager != null) {
+            return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                    locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        }
+        return false;
+    }
+
 }
