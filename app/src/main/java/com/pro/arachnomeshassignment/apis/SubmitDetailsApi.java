@@ -27,7 +27,7 @@ public class SubmitDetailsApi {
                 ", \"Contact\": \"" + contact + "\", \"Location\": \"" + location + "\"}"; //json body
 
         // Define the media type as JSON
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        MediaType mediaType = MediaType.parse("application/json");
         // Create a RequestBody with the JSON string and media type
         RequestBody requestBody = RequestBody.create(body, mediaType);
 
