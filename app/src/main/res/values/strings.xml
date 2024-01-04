@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Arachnomesh Assignment</string>
+    <string name="profile_image">profile image</string>
+    <string name="enter_your_details">Enter your Details</string>
+    <string name="name">Name *</string>
+    <string name="contact_number">Contact Number *</string>
+    <string name="user_id">User Id *</string>
+    <string name="location">Location *</string>
+    <string name="_73_89763_18_28464">73.897634, 18.284645</string>
+    <string name="get_location">Get Location</string>
+    <string name="submit">Submit</string>
+    <string name="confirm_details">Confirm Details</string>
+    <string name="rahul_sharma">Rahul Sharma</string>
+    <string name="_9057298856">9057298856</string>
+    <string name="user21">user21</string>
+</resources>
