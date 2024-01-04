@@ -1,9 +1,11 @@
-package com.pro.arachnomeshassignment;
+package com.pro.arachnomeshassignment.apis;
 
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+
+import com.pro.arachnomeshassignment.interfaces.ApiCallback;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.pro.arachnomeshassignment;
+package com.pro.arachnomeshassignment.activities;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.pro.arachnomeshassignment.interfaces.ApiCallback;
+import com.pro.arachnomeshassignment.apis.SubmitDetailsApi;
 import com.pro.arachnomeshassignment.databinding.ActivitySubmitDetailsBinding;
 
 public class SubmitDetails extends AppCompatActivity implements ApiCallback {

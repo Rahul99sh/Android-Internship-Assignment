@@ -1,4 +1,4 @@
-package com.pro.arachnomeshassignment;
+package com.pro.arachnomeshassignment.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
