@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    // callback after permission
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             showLocationAlertDialog();
         }
     }
-
+    // Method for requesting location services
     public void showLocationAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Location Services Disabled");
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
+    // Checking location services working ?
     public boolean isLocationEnabled() { // checking if location service is turned on or off
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager != null) {
