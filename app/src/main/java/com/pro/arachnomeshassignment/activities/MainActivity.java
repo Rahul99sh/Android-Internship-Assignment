@@ -21,7 +21,6 @@ import com.pro.arachnomeshassignment.databinding.ActivityMainBinding;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private FusedLocationProviderClient fusedLocationClient;
     ActivityMainBinding binding;
